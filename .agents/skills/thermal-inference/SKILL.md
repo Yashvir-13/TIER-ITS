@@ -1,63 +1,98 @@
 ---
 name: thermal-inference
-description: Run LLM inference on a thermally-constrained GPU. Use when the hardware has limited VRAM, degraded cooling, or when running long batch inference jobs that risk thermal throttling.
+description: Run LLM inference for TIER-ITS experiments. Use when running batch inference jobs on remote GPU providers or locally on CPU. Covers provider setup, response caching, and session management.
 ---
 
-# Thermal-Safe Inference
+# LLM Inference — Remote & Local
 
-## The constraint
+## The setup
 
-LLM inference on laptop GPUs with degraded cooling risks: thermal throttling → performance collapse → OOM → crash → lost progress. The mitigation is threefold: **limit power**, **cache responses**, **batch with cooldown**.
+TIER-ITS uses LLM inference for two things: (1) extracting ITS concepts from conversation turns, and (2) generating reports. All inference goes through a unified client that supports multiple backends.
+
+## LLM backends (priority order)
+
+| Backend | When to use | Setup |
+|:--------|:-----------|:------|
+| **Gemini API** (free tier) | Primary for all work | `GEMINI_API_KEY` env var from Google AI Studio |
+| **Ollama** (Windows, CPU) | Local dev/test only | `ollama serve` on Windows, models pulled locally |
+| **Remote Ollama** (GPU provider) | Batch experiments on Kaggle/Colab/Lightning | Ollama installed in notebook, GPU-accelerated |
 
 ## Before any inference run
 
-1. **Check GPU state:**
-   ```bash
-   nvidia-smi --query-gpu=temperature.gpu,power.draw,memory.used --format=csv,noheader
+1. **Check which backend is active:**
+   ```python
+   from src.inference.client import get_client
+   client = get_client()  # auto-selects based on env vars
    ```
-2. **Set power limit** (if hardware allows): `sudo nvidia-smi -pl <watts>`. On laptops this may be BIOS-locked; use performance profiles instead (e.g., Fn+Q → "Quiet").
-3. **Verify Ollama config** includes: `OLLAMA_FLASH_ATTENTION=1`, `OLLAMA_MAX_LOADED_MODELS=1`, `OLLAMA_NUM_PARALLEL=1`. These are set in `/etc/systemd/system/ollama.service.d/environment.conf`.
+2. **Verify cache directory exists:** `data/cache/` — all LLM responses are cached.
+3. **Check API key (Gemini):**
+   ```powershell
+   echo $env:GEMINI_API_KEY  # should be set
+   ```
 
 ## Response caching
 
-Every LLM call goes through a deterministic cache keyed on `hash(model, messages, format_schema)`. Same inputs never hit the GPU twice. This is both a thermal measure and a reproducibility requirement (proposal §7.1).
+Every LLM call goes through a deterministic cache keyed on `hash(model, messages, format_schema)`. Same inputs never hit the API twice. This is both a cost measure (Gemini free tier has rate limits) and a reproducibility requirement (proposal §7.1).
 
 Cache lives at `data/cache/`. The cache module is at `src/inference/cache.py`.
 
-## Batch with cooldown
+## Rate limit handling (Gemini free tier)
 
-For experiment runs (weeks 6–7), process cases in batches of 10 with a thermal guard between batches:
+The Gemini free tier enforces RPM (requests/min), TPM (tokens/min), and RPD (requests/day) limits. The inference client must:
 
 ```python
-BATCH_SIZE = 10
-MAX_TEMP = 78  # Celsius
+import time
 
-for i, case in enumerate(cases):
-    if i % BATCH_SIZE == 0 and i > 0:
-        wait_for_cooldown(MAX_TEMP)
-    result = run_case(case)
-    save_result(result)  # persist immediately — crash-safe
+MAX_RPM = 10  # adjust per actual quota in AI Studio
+DELAY = 60 / MAX_RPM + 1  # seconds between requests
+
+for case in cases:
+    result = run_case(case)  # checks cache first
+    save_result(result)      # persist immediately
+    if not result.from_cache:
+        time.sleep(DELAY)    # respect rate limit
 ```
 
-The `wait_for_cooldown` function polls `nvidia-smi` every 5 seconds and blocks until the GPU drops below threshold.
+## Running on remote GPU providers
 
-## VRAM budget (6 GB total)
+### Kaggle Notebook
+```python
+# Install Ollama in Kaggle
+!curl -fsSL https://ollama.com/install.sh | sh
+!ollama serve &  # background
+!ollama pull qwen3:4b
+# Then run experiments normally — GPU-accelerated
+```
 
-| Component | Budget |
-|:--|:--|
-| Model weights (Q4_K_M, 4B params) | ~4.0 GB |
-| KV cache (4096 context) | ~0.5–1.0 GB |
-| Runtime overhead | ~0.5 GB |
-| **Headroom** | ~0.5 GB |
+### Google Colab (Enhanced via Gemini AI Pro)
+```python
+# Colab has priority GPU access with Gemini AI Pro subscription
+# Option 1: Use Gemini API directly (no local model needed)
+# Option 2: Install Ollama for local GPU inference
+!curl -fsSL https://ollama.com/install.sh | sh
+```
 
-- Never exceed `num_ctx: 8192`. Default is 4096.
-- Process conversations **turn-by-turn**, not all-at-once.
-- If OOM occurs: reduce `num_ctx`, switch to a smaller model, or reduce `num_predict`.
-
-## Monitoring during long runs
-
-Keep a monitoring terminal open:
-
+### Lightning AI Studio
 ```bash
-watch -n 1 nvidia-smi --query-gpu=temperature.gpu,power.draw,utilization.gpu,memory.used --format=csv,noheader
+# Persistent workspace — Ollama stays installed between sessions
+curl -fsSL https://ollama.com/install.sh | sh
+ollama pull qwen3:4b
+# Activate GPU, run experiments
 ```
+
+## Checkpoint sync
+
+After each batch of results, sync to Google Drive:
+
+```python
+# In experiment runner
+if i % CHECKPOINT_INTERVAL == 0:
+    sync_to_drive(results_dir="results/", cache_dir="data/cache/")
+```
+
+## If rate-limited (429 errors)
+
+1. Check your quota in Google AI Studio → Rate Limits.
+2. Increase `DELAY` between requests.
+3. Switch to a different backend (Ollama on remote GPU) for the current batch.
+4. Resume later — the cache ensures no repeated work.

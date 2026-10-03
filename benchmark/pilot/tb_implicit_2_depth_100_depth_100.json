@@ -1,0 +1,535 @@
+{
+  "case_id": "tb_implicit_2_depth_100_depth_100",
+  "turns": [
+    {
+      "turn_index": 0,
+      "speaker": "therapist",
+      "text": "How have you been sleeping lately?"
+    },
+    {
+      "turn_index": 1,
+      "speaker": "patient",
+      "text": "About the same. I wake up a few times, but I guess I get enough rest."
+    },
+    {
+      "turn_index": 2,
+      "speaker": "therapist",
+      "text": "That's good to hear. Have you managed to go for any walks like we talked about?"
+    },
+    {
+      "turn_index": 3,
+      "speaker": "patient",
+      "text": "Yeah, I walked around the block on Tuesday. It was okay."
+    },
+    {
+      "turn_index": 4,
+      "speaker": "therapist",
+      "text": "Did you notice anything interesting while you were out?"
+    },
+    {
+      "turn_index": 5,
+      "speaker": "patient",
+      "text": "I don't know why I bother showing up to Sunday dinner anymore. I just sit there and stare at my plate while they talk around me."
+    },
+    {
+      "turn_index": 6,
+      "speaker": "patient",
+      "text": "Not really. Just the usual traffic and some neighbors."
+    },
+    {
+      "turn_index": 7,
+      "speaker": "therapist",
+      "text": "Sometimes just getting out is a victory. Have you watched anything good on TV?"
+    },
+    {
+      "turn_index": 8,
+      "speaker": "patient",
+      "text": "I started a new documentary series about the ocean, but I haven't finished it."
+    },
+    {
+      "turn_index": 9,
+      "speaker": "therapist",
+      "text": "Oh, that sounds interesting. Is it calming?"
+    },
+    {
+      "turn_index": 10,
+      "speaker": "patient",
+      "text": "A little bit. The narrator has a nice voice."
+    },
+    {
+      "turn_index": 11,
+      "speaker": "therapist",
+      "text": "How have you been sleeping lately?"
+    },
+    {
+      "turn_index": 12,
+      "speaker": "patient",
+      "text": "About the same. I wake up a few times, but I guess I get enough rest."
+    },
+    {
+      "turn_index": 13,
+      "speaker": "therapist",
+      "text": "That's good to hear. Have you managed to go for any walks like we talked about?"
+    },
+    {
+      "turn_index": 14,
+      "speaker": "patient",
+      "text": "Yeah, I walked around the block on Tuesday. It was okay."
+    },
+    {
+      "turn_index": 15,
+      "speaker": "therapist",
+      "text": "Did you notice anything interesting while you were out?"
+    },
+    {
+      "turn_index": 16,
+      "speaker": "patient",
+      "text": "Not really. Just the usual traffic and some neighbors."
+    },
+    {
+      "turn_index": 17,
+      "speaker": "therapist",
+      "text": "Sometimes just getting out is a victory. Have you watched anything good on TV?"
+    },
+    {
+      "turn_index": 18,
+      "speaker": "patient",
+      "text": "I started a new documentary series about the ocean, but I haven't finished it."
+    },
+    {
+      "turn_index": 19,
+      "speaker": "therapist",
+      "text": "Oh, that sounds interesting. Is it calming?"
+    },
+    {
+      "turn_index": 20,
+      "speaker": "patient",
+      "text": "A little bit. The narrator has a nice voice."
+    },
+    {
+      "turn_index": 21,
+      "speaker": "therapist",
+      "text": "How have you been sleeping lately?"
+    },
+    {
+      "turn_index": 22,
+      "speaker": "patient",
+      "text": "About the same. I wake up a few times, but I guess I get enough rest."
+    },
+    {
+      "turn_index": 23,
+      "speaker": "therapist",
+      "text": "That's good to hear. Have you managed to go for any walks like we talked about?"
+    },
+    {
+      "turn_index": 24,
+      "speaker": "patient",
+      "text": "Yeah, I walked around the block on Tuesday. It was okay."
+    },
+    {
+      "turn_index": 25,
+      "speaker": "therapist",
+      "text": "Did you notice anything interesting while you were out?"
+    },
+    {
+      "turn_index": 26,
+      "speaker": "patient",
+      "text": "Not really. Just the usual traffic and some neighbors."
+    },
+    {
+      "turn_index": 27,
+      "speaker": "therapist",
+      "text": "Sometimes just getting out is a victory. Have you watched anything good on TV?"
+    },
+    {
+      "turn_index": 28,
+      "speaker": "patient",
+      "text": "I started a new documentary series about the ocean, but I haven't finished it."
+    },
+    {
+      "turn_index": 29,
+      "speaker": "therapist",
+      "text": "Oh, that sounds interesting. Is it calming?"
+    },
+    {
+      "turn_index": 30,
+      "speaker": "patient",
+      "text": "A little bit. The narrator has a nice voice."
+    },
+    {
+      "turn_index": 31,
+      "speaker": "therapist",
+      "text": "How have you been sleeping lately?"
+    },
+    {
+      "turn_index": 32,
+      "speaker": "patient",
+      "text": "About the same. I wake up a few times, but I guess I get enough rest."
+    },
+    {
+      "turn_index": 33,
+      "speaker": "therapist",
+      "text": "That's good to hear. Have you managed to go for any walks like we talked about?"
+    },
+    {
+      "turn_index": 34,
+      "speaker": "patient",
+      "text": "Yeah, I walked around the block on Tuesday. It was okay."
+    },
+    {
+      "turn_index": 35,
+      "speaker": "therapist",
+      "text": "Did you notice anything interesting while you were out?"
+    },
+    {
+      "turn_index": 36,
+      "speaker": "patient",
+      "text": "Not really. Just the usual traffic and some neighbors."
+    },
+    {
+      "turn_index": 37,
+      "speaker": "therapist",
+      "text": "Sometimes just getting out is a victory. Have you watched anything good on TV?"
+    },
+    {
+      "turn_index": 38,
+      "speaker": "patient",
+      "text": "I started a new documentary series about the ocean, but I haven't finished it."
+    },
+    {
+      "turn_index": 39,
+      "speaker": "therapist",
+      "text": "Oh, that sounds interesting. Is it calming?"
+    },
+    {
+      "turn_index": 40,
+      "speaker": "patient",
+      "text": "A little bit. The narrator has a nice voice."
+    },
+    {
+      "turn_index": 41,
+      "speaker": "therapist",
+      "text": "How have you been sleeping lately?"
+    },
+    {
+      "turn_index": 42,
+      "speaker": "patient",
+      "text": "About the same. I wake up a few times, but I guess I get enough rest."
+    },
+    {
+      "turn_index": 43,
+      "speaker": "therapist",
+      "text": "That's good to hear. Have you managed to go for any walks like we talked about?"
+    },
+    {
+      "turn_index": 44,
+      "speaker": "patient",
+      "text": "Yeah, I walked around the block on Tuesday. It was okay."
+    },
+    {
+      "turn_index": 45,
+      "speaker": "therapist",
+      "text": "Did you notice anything interesting while you were out?"
+    },
+    {
+      "turn_index": 46,
+      "speaker": "patient",
+      "text": "Not really. Just the usual traffic and some neighbors."
+    },
+    {
+      "turn_index": 47,
+      "speaker": "therapist",
+      "text": "Sometimes just getting out is a victory. Have you watched anything good on TV?"
+    },
+    {
+      "turn_index": 48,
+      "speaker": "patient",
+      "text": "I started a new documentary series about the ocean, but I haven't finished it."
+    },
+    {
+      "turn_index": 49,
+      "speaker": "therapist",
+      "text": "Oh, that sounds interesting. Is it calming?"
+    },
+    {
+      "turn_index": 50,
+      "speaker": "patient",
+      "text": "A little bit. The narrator has a nice voice."
+    },
+    {
+      "turn_index": 51,
+      "speaker": "therapist",
+      "text": "How have you been sleeping lately?"
+    },
+    {
+      "turn_index": 52,
+      "speaker": "patient",
+      "text": "About the same. I wake up a few times, but I guess I get enough rest."
+    },
+    {
+      "turn_index": 53,
+      "speaker": "therapist",
+      "text": "That's good to hear. Have you managed to go for any walks like we talked about?"
+    },
+    {
+      "turn_index": 54,
+      "speaker": "patient",
+      "text": "Yeah, I walked around the block on Tuesday. It was okay."
+    },
+    {
+      "turn_index": 55,
+      "speaker": "therapist",
+      "text": "Did you notice anything interesting while you were out?"
+    },
+    {
+      "turn_index": 56,
+      "speaker": "patient",
+      "text": "Not really. Just the usual traffic and some neighbors."
+    },
+    {
+      "turn_index": 57,
+      "speaker": "therapist",
+      "text": "Sometimes just getting out is a victory. Have you watched anything good on TV?"
+    },
+    {
+      "turn_index": 58,
+      "speaker": "patient",
+      "text": "I started a new documentary series about the ocean, but I haven't finished it."
+    },
+    {
+      "turn_index": 59,
+      "speaker": "therapist",
+      "text": "Oh, that sounds interesting. Is it calming?"
+    },
+    {
+      "turn_index": 60,
+      "speaker": "patient",
+      "text": "A little bit. The narrator has a nice voice."
+    },
+    {
+      "turn_index": 61,
+      "speaker": "therapist",
+      "text": "How have you been sleeping lately?"
+    },
+    {
+      "turn_index": 62,
+      "speaker": "patient",
+      "text": "About the same. I wake up a few times, but I guess I get enough rest."
+    },
+    {
+      "turn_index": 63,
+      "speaker": "therapist",
+      "text": "That's good to hear. Have you managed to go for any walks like we talked about?"
+    },
+    {
+      "turn_index": 64,
+      "speaker": "patient",
+      "text": "Yeah, I walked around the block on Tuesday. It was okay."
+    },
+    {
+      "turn_index": 65,
+      "speaker": "therapist",
+      "text": "Did you notice anything interesting while you were out?"
+    },
+    {
+      "turn_index": 66,
+      "speaker": "patient",
+      "text": "Not really. Just the usual traffic and some neighbors."
+    },
+    {
+      "turn_index": 67,
+      "speaker": "therapist",
+      "text": "Sometimes just getting out is a victory. Have you watched anything good on TV?"
+    },
+    {
+      "turn_index": 68,
+      "speaker": "patient",
+      "text": "I started a new documentary series about the ocean, but I haven't finished it."
+    },
+    {
+      "turn_index": 69,
+      "speaker": "therapist",
+      "text": "Oh, that sounds interesting. Is it calming?"
+    },
+    {
+      "turn_index": 70,
+      "speaker": "patient",
+      "text": "A little bit. The narrator has a nice voice."
+    },
+    {
+      "turn_index": 71,
+      "speaker": "therapist",
+      "text": "How have you been sleeping lately?"
+    },
+    {
+      "turn_index": 72,
+      "speaker": "patient",
+      "text": "About the same. I wake up a few times, but I guess I get enough rest."
+    },
+    {
+      "turn_index": 73,
+      "speaker": "therapist",
+      "text": "That's good to hear. Have you managed to go for any walks like we talked about?"
+    },
+    {
+      "turn_index": 74,
+      "speaker": "patient",
+      "text": "Yeah, I walked around the block on Tuesday. It was okay."
+    },
+    {
+      "turn_index": 75,
+      "speaker": "therapist",
+      "text": "Did you notice anything interesting while you were out?"
+    },
+    {
+      "turn_index": 76,
+      "speaker": "patient",
+      "text": "Not really. Just the usual traffic and some neighbors."
+    },
+    {
+      "turn_index": 77,
+      "speaker": "therapist",
+      "text": "Sometimes just getting out is a victory. Have you watched anything good on TV?"
+    },
+    {
+      "turn_index": 78,
+      "speaker": "patient",
+      "text": "I started a new documentary series about the ocean, but I haven't finished it."
+    },
+    {
+      "turn_index": 79,
+      "speaker": "therapist",
+      "text": "Oh, that sounds interesting. Is it calming?"
+    },
+    {
+      "turn_index": 80,
+      "speaker": "patient",
+      "text": "A little bit. The narrator has a nice voice."
+    },
+    {
+      "turn_index": 81,
+      "speaker": "therapist",
+      "text": "How have you been sleeping lately?"
+    },
+    {
+      "turn_index": 82,
+      "speaker": "patient",
+      "text": "About the same. I wake up a few times, but I guess I get enough rest."
+    },
+    {
+      "turn_index": 83,
+      "speaker": "therapist",
+      "text": "That's good to hear. Have you managed to go for any walks like we talked about?"
+    },
+    {
+      "turn_index": 84,
+      "speaker": "patient",
+      "text": "Yeah, I walked around the block on Tuesday. It was okay."
+    },
+    {
+      "turn_index": 85,
+      "speaker": "therapist",
+      "text": "Did you notice anything interesting while you were out?"
+    },
+    {
+      "turn_index": 86,
+      "speaker": "patient",
+      "text": "Not really. Just the usual traffic and some neighbors."
+    },
+    {
+      "turn_index": 87,
+      "speaker": "therapist",
+      "text": "Sometimes just getting out is a victory. Have you watched anything good on TV?"
+    },
+    {
+      "turn_index": 88,
+      "speaker": "patient",
+      "text": "I started a new documentary series about the ocean, but I haven't finished it."
+    },
+    {
+      "turn_index": 89,
+      "speaker": "therapist",
+      "text": "Oh, that sounds interesting. Is it calming?"
+    },
+    {
+      "turn_index": 90,
+      "speaker": "patient",
+      "text": "A little bit. The narrator has a nice voice."
+    },
+    {
+      "turn_index": 91,
+      "speaker": "therapist",
+      "text": "How have you been sleeping lately?"
+    },
+    {
+      "turn_index": 92,
+      "speaker": "patient",
+      "text": "About the same. I wake up a few times, but I guess I get enough rest."
+    },
+    {
+      "turn_index": 93,
+      "speaker": "therapist",
+      "text": "That's good to hear. Have you managed to go for any walks like we talked about?"
+    },
+    {
+      "turn_index": 94,
+      "speaker": "patient",
+      "text": "Yeah, I walked around the block on Tuesday. It was okay."
+    },
+    {
+      "turn_index": 95,
+      "speaker": "therapist",
+      "text": "Did you notice anything interesting while you were out?"
+    },
+    {
+      "turn_index": 96,
+      "speaker": "patient",
+      "text": "Not really. Just the usual traffic and some neighbors."
+    },
+    {
+      "turn_index": 97,
+      "speaker": "therapist",
+      "text": "Sometimes just getting out is a victory. Have you watched anything good on TV?"
+    },
+    {
+      "turn_index": 98,
+      "speaker": "patient",
+      "text": "I started a new documentary series about the ocean, but I haven't finished it."
+    },
+    {
+      "turn_index": 99,
+      "speaker": "therapist",
+      "text": "Oh, that sounds interesting. Is it calming?"
+    },
+    {
+      "turn_index": 100,
+      "speaker": "patient",
+      "text": "A little bit. The narrator has a nice voice."
+    },
+    {
+      "turn_index": 101,
+      "speaker": "therapist",
+      "text": "How have you been sleeping lately?"
+    },
+    {
+      "turn_index": 102,
+      "speaker": "patient",
+      "text": "About the same. I wake up a few times, but I guess I get enough rest."
+    },
+    {
+      "turn_index": 103,
+      "speaker": "therapist",
+      "text": "That's good to hear. Have you managed to go for any walks like we talked about?"
+    },
+    {
+      "turn_index": 104,
+      "speaker": "patient",
+      "text": "Yeah, I walked around the block on Tuesday. It was okay."
+    },
+    {
+      "turn_index": 105,
+      "speaker": "therapist",
+      "text": "Did you notice anything interesting while you were out?"
+    }
+  ]
+}

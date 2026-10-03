@@ -1,10 +1,17 @@
-# Python
+# Python & Environment
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
 .Python
+ml/
 env/
+venv/
+ENV/
+.env
+.venv
+
+# Build & Distribution
 build/
 develop-eggs/
 dist/
@@ -20,15 +27,29 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
-.venv/
-venv/
-ENV/
 
-# Project Specific
+# Testing & Linting
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+.mypy_cache/
+.ruff_cache/
+
+# IDEs & Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# TIER-ITS Project Specific
+data/raw/
+data/processed/
 data/cache/
 results/
-paper/figures/
-.env
-
-# MacOS
-.DS_Store
+chroma_db/
+mlruns/
+*.log

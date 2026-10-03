@@ -1,51 +1,24 @@
-# TIER-ITS Glossary
+# Glossary
 
-Domain vocabulary for the TIER-ITS project. Read this before working in the codebase.
+This document defines the core domain terminology used throughout the TIER-ITS project, particularly focusing on the Interpersonal Theory of Suicide (ITS) and associated risk assessment frameworks.
 
-## ITS Concepts
+## Interpersonal Theory of Suicide (ITS) Concepts
 
-| Term | Full Name | Definition |
-|:-----|:----------|:-----------|
-| **ITS** | Interpersonal Theory of Suicide | Framework describing psychological states that may contribute to suicidal desire or dangerous behaviour (Van Orden et al. 2010). |
-| **TB** | Thwarted Belongingness | Feeling disconnected from others, isolated, not part of a group. An ITS concept. |
-| **PB** | Perceived Burdensomeness | Feeling like a burden to others, that others would be better off without you. An ITS concept. |
-| **AC** | Acquired Capability | Fearlessness about death and elevated pain tolerance, often through habituation. An ITS concept. |
-| **Hopelessness** | — | Belief that the states of TB/PB will not change. Amplifies suicidal desire in ITS. |
+These concepts form the core of the `ITSConcept` enum used in the evidence ledger.
 
-## Clinical Instruments
+*   **Thwarted Belongingness (TB):** The feeling of being completely disconnected from others. A psychological state where an individual feels they do not belong to any group, family, or community, and lack meaningful social connections. Expressed as "I am alone," "Nobody cares about me," or severe social isolation.
+*   **Perceived Burdensomeness (PB):** The feeling that one is a burden to others. A psychological state where an individual believes their existence places a heavy and unwanted toll on their family, friends, or society, and that others would be better off if they were gone. Expressed as "I'm just dragging everyone down" or "They'd be happier without me."
+*   **Hopelessness:** In the context of ITS, this refers specifically to the belief that the states of Thwarted Belongingness and Perceived Burdensomeness will never change or improve.
+*   **Acquired Capability (AC):** A lowered fear of death and increased tolerance for physical pain, often developed through habituation to painful or frightening experiences. ITS posits that TB and PB create the *desire* for suicide, but AC is required for the *ability* to enact it.
 
-| Term | Full Name | Definition |
-|:-----|:----------|:-----------|
-| **C-SSRS** | Columbia Suicide Severity Rating Scale | Structured clinical instrument for assessing suicidal thoughts and behaviour. Used as a reference protocol in this project (Posner et al. 2011). |
-| **SAFE-T** | Suicide Assessment Five-Step Evaluation and Triage | SAMHSA framework combining inquiry, risk/protective factors, and professional judgement (SAMHSA 2024). |
+## Risk Assessment Frameworks
 
-## Datasets
+*   **C-SSRS (Columbia-Suicide Severity Rating Scale):** A widely used, structured questionnaire designed to assess the severity and imminence of suicidal ideation and behavior. It asks specific, graduated questions about suicidal thoughts, plans, and intent.
+*   **SAFE-T (Suicide Assessment Five-Step Evaluation and Triage):** A clinical practice guideline that involves identifying risk factors, identifying protective factors, conducting a suicide inquiry (like C-SSRS), determining risk level/intervention, and documenting the process.
 
-| Term | Definition |
-|:-----|:-----------|
-| **IRF dataset** | Interpersonal Risk Factors dataset (Garg et al. 2023). 3,522 Reddit posts with human labels and explanations for TB and PB. Split: 1,972 train / 493 val / 1,057 test. Public. |
-| **CLPsych** | Computational Linguistics and Psychology workshop. Source of shared tasks on suicide risk detection. Data access may be restricted. |
-| **Controlled benchmark** | The project's main test set. ~160 target statements placed at depths 0, 20, 50, 100 turns. Generated and labelled by construction. |
+## TIER-ITS Project Terms
 
-## System Components
-
-| Term | Definition |
-|:-----|:-----------|
-| **Evidence ledger** | Structured JSON store recording ITS concepts extracted from conversation turns. Each record contains: concept, direction (supports/rejects/uncertain), turn index, text span, subject, temporality, confidence, and contradiction links. |
-| **Evidence record** | A single entry in the ledger. One ITS concept extracted from one turn, with all metadata fields. Defined in `src/schemas/evidence.py`. |
-| **Gold ledger** | A ledger filled with correct human labels (not model-extracted). Used as an upper bound to isolate extraction errors from memory design errors. |
-| **Concept bottleneck** | Architecture pattern: raw text → human-readable concepts → final output. Enables inspection and correction of intermediate concepts before producing the report (Koh et al. 2020). |
-| **Depth** | Number of conversation turns between the target statement and the report query point. The main independent variable in the experiments. |
-| **Evidence precision** | How often a cited turn is actually relevant to the ITS concept. |
-| **Evidence recall** | How much of the labelled evidence was found by the system. |
-
-## Methods Compared
-
-| Method | Description |
-|:-------|:-----------|
-| **Target only** | Model sees only the target statement. Easiest possible condition. |
-| **Full conversation** | Model receives all turns at once. |
-| **Recent window** | Model sees only the latest N turns. |
-| **General summary** | An LLM maintains a prose summary of the conversation. |
-| **TIER-ITS** | Structured ITS evidence ledger + conversation retrieval + protocol retrieval. |
-| **Gold ledger** | TIER-ITS with human-labelled ledger entries instead of model-extracted ones. |
+*   **Evidence Ledger:** The core memory structure of this project. A structured store that records extracted ITS concepts, the exact text span supporting them, temporality, subject, and any subsequent contradictions.
+*   **Target Statement:** A specific piece of risk evidence (e.g., "I feel like a burden to my family") artificially placed into a conversation at a known depth to test memory retention.
+*   **Conversation Depth:** The number of conversational turns that have occurred *after* a target statement was introduced.
+*   **Baseline:** Comparison models that do not use the ITS evidence ledger, including target-only, full-context (the entire conversation history), recent-window (the last N turns), and general-summary (a running text summary).

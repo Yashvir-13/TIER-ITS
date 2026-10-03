@@ -1,46 +1,23 @@
-from pydantic import BaseModel, Field
 from enum import Enum
-from typing import Optional
-from datetime import datetime
+from pydantic import BaseModel, Field
+from typing import List, Optional
 
 class ITSConcept(str, Enum):
+    """Core concepts from the Interpersonal Theory of Suicide (ITS)."""
     THWARTED_BELONGINGNESS = "thwarted_belongingness"
     PERCEIVED_BURDENSOMENESS = "perceived_burdensomeness"
     HOPELESSNESS = "hopelessness"
     ACQUIRED_CAPABILITY = "acquired_capability"
-    FEARLESSNESS_ABOUT_DEATH = "fearlessness_about_death"
-
-class EvidenceDirection(str, Enum):
-    SUPPORTS = "supports"
-    REJECTS = "rejects"
-    UNCERTAIN = "uncertain"
-
-class SubjectType(str, Enum):
-    SPEAKER = "speaker"
-    OTHER_PERSON = "other_person"
-    QUOTATION = "quotation"
-
-class Temporality(str, Enum):
-    PRESENT = "present"
-    PAST = "past"
 
 class EvidenceRecord(BaseModel):
-    """Single evidence record in the ITS ledger."""
-    concept: ITSConcept
-    direction: EvidenceDirection
-    turn_index: int = Field(description="0-indexed turn where evidence was found")
-    text_span: str = Field(description="Exact quoted text from the turn")
-    subject: SubjectType
-    temporality: Temporality
-    confidence: float = Field(ge=0.0, le=1.0)
-    contradiction_of: Optional[int] = Field(
-        default=None,
-        description="turn_index of a previous record this contradicts"
-    )
-    extracted_at: datetime = Field(default_factory=datetime.utcnow)
+    """A structured record of an extracted ITS concept from the conversation."""
+    concept: ITSConcept = Field(..., description="The ITS concept identified.")
+    evidence_text: str = Field(..., description="Exact quote from the conversation supporting the concept.")
+    turn_index: int = Field(..., description="The 0-based index of the conversation turn where the evidence was found.")
+    subject: str = Field(default="patient", description="Who the evidence applies to (e.g., patient, family member).")
+    contradicted: bool = Field(default=False, description="Whether this evidence was later contradicted or corrected.")
+    contradicted_by_turn: Optional[int] = Field(default=None, description="The turn index that contradicted this evidence, if any.")
 
-class ITSLedger(BaseModel):
-    """Complete evidence ledger for one conversation."""
-    conversation_id: str
-    records: list[EvidenceRecord] = []
-    total_turns_processed: int = 0
+class Ledger(BaseModel):
+    """The central state mechanism representing the system's memory of ITS evidence."""
+    records: List[EvidenceRecord] = Field(default_factory=list, description="All collected ITS evidence records.")

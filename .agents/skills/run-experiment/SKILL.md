@@ -1,6 +1,6 @@
 ---
 name: run-experiment
-description: Run a TIER-ITS experiment batch (depth, evidence, correction, or intervention). Use when the user wants to execute an experiment from the experiments/ directory with thermal guards and result persistence.
+description: Run a TIER-ITS experiment batch (depth, evidence, correction, or intervention). Use when the user wants to execute an experiment from the experiments/ directory with checkpointing and result persistence. Works on any provider (local CPU, Kaggle, Colab, Lightning AI).
 ---
 
 # Run Experiment
@@ -9,12 +9,13 @@ description: Run a TIER-ITS experiment batch (depth, evidence, correction, or in
 
 Every experiment run begins with this checklist. Skip nothing.
 
-1. **Python env:** `source ~/ml/bin/activate`.
-2. **Ollama running:** `curl -s --max-time 5 http://127.0.0.1:11434/` → "Ollama is running".
-3. **GPU temp below 70°C:** `nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader`.
-4. **Benchmark exists:** `ls data/benchmark/` — must contain generated conversation files.
-5. **Model pulled:** `ollama list | grep qwen3:4b`.
-6. **Cache directory writable:** `ls data/cache/`.
+1. **Python env:** Activate the venv. Locally: `.\ml\Scripts\Activate.ps1`. On remote: `pip install -r requirements.txt`.
+2. **LLM backend available:** At least one of:
+   - Gemini API: `echo $env:GEMINI_API_KEY` (or `echo $GEMINI_API_KEY` on Linux) is set.
+   - Ollama: `curl -s --max-time 5 http://127.0.0.1:11434/` → "Ollama is running".
+3. **Benchmark exists:** `ls data/benchmark/` — must contain generated conversation files.
+4. **Cache directory writable:** `ls data/cache/`.
+5. **Previous checkpoints restored** (if resuming on a new provider): `python scripts/restore_checkpoint.py`.
 
 ## Which experiment
 
@@ -27,10 +28,27 @@ Every experiment run begins with this checklist. Skip nothing.
 
 ## Execution
 
-1. Run the script. Thermal guards are built into the runner (batch-with-cooldown).
-2. Results write to `results/` immediately after each case — crash-safe.
-3. If the run is interrupted, it resumes from the last completed case (the runner checks `results/` for existing output).
-4. Monitor GPU in a second terminal: `watch -n 1 nvidia-smi`.
+1. Run the script with `--resume` to skip completed cases:
+   ```bash
+   python experiments/run_depth.py --resume --checkpoint-interval 10
+   ```
+2. Results write to `results/` immediately after each case — crash-safe and provider-agnostic.
+3. If the run is interrupted (session timeout, quota exhausted), it resumes from the last completed case.
+4. LLM response cache is synced to cloud storage at each checkpoint interval.
+
+## Switching providers mid-experiment
+
+This is the normal workflow. When one provider's quota is exhausted:
+
+1. **Save progress:** `python scripts/upload_checkpoint.py` (syncs results + cache to Google Drive).
+2. **On the new provider:**
+   ```bash
+   git clone https://github.com/you/TIER-ITS.git && cd TIER-ITS
+   pip install -r requirements.txt
+   python scripts/restore_checkpoint.py
+   python experiments/run_depth.py --resume
+   ```
+3. The experiment picks up exactly where it left off.
 
 ## Post-run
 
@@ -38,10 +56,14 @@ Every experiment run begins with this checklist. Skip nothing.
 2. Run `experiments/compare.py` to generate cross-method comparison tables.
 3. Run `evaluation/analysis.py` for bootstrap confidence intervals and figures.
 4. Figures write to `paper/figures/`.
+5. Sync final results: `python scripts/upload_checkpoint.py`.
 
-## If it crashes mid-run
+## If it fails mid-run
 
-1. Check GPU temp — was it thermal? If so, lower `MAX_TEMP` threshold or `BATCH_SIZE`.
-2. Check `results/` — how many cases completed before the crash.
-3. Re-run the same script. It will skip completed cases and resume.
-4. If the crash is OOM, reduce `num_ctx` in the Ollama call or switch to a smaller model.
+1. Check the error:
+   - **429 / rate limited** → increase delay between requests, or switch to Ollama on GPU.
+   - **Session timeout** → normal. Upload checkpoint, switch provider, resume.
+   - **OOM on remote GPU** → reduce `num_ctx` or switch to smaller model.
+   - **API key issue** → check `GEMINI_API_KEY` is set and valid.
+2. Check `results/` — how many cases completed before the failure.
+3. Re-run with `--resume`. It will skip completed cases.

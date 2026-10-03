@@ -1,0 +1,10 @@
+C-SSRS (Columbia-Suicide Severity Rating Scale) Core Questions:
+1. Wish to be Dead: Have you wished you were dead or wished you could go to sleep and not wake up?
+2. Suicidal Thoughts: Have you actually had any thoughts of killing yourself?
+3. Suicidal Thoughts with Method: Have you been thinking about how you might do this?
+4. Suicidal Intent: Have you had these thoughts and had some intention of acting on them?
+5. Suicide Intent with Specific Plan: Have you started to work out or worked out the details of how to kill yourself?
+
+Evidence Mapping:
+- Thwarted Belongingness heavily correlates with Question 1 (Wish to be Dead) due to social isolation.
+- Perceived Burdensomeness correlates with Question 1 and 2, often serving as the underlying rationale for the ideation.

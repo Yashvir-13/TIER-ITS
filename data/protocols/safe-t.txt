@@ -1,0 +1,10 @@
+SAFE-T (Suicide Assessment Five-step Evaluation and Triage):
+1. Identify Risk Factors: Note those that can be modified to reduce risk (e.g., severe panic, intoxication, isolation).
+2. Identify Protective Factors: Note those that can be enhanced (e.g., family support, religious beliefs, pregnancy).
+3. Conduct Suicide Inquiry: Explore suicidal thoughts, plans, behavior, and intent.
+4. Determine Risk Level/Intervention: Choose appropriate intervention to address and reduce risk.
+5. Document: Record assessment of risk, rationale, intervention, and follow-up.
+
+Evidence Mapping:
+- Thwarted Belongingness is a primary Risk Factor under step 1 (Isolation/Alienation).
+- Correcting Perceived Burdensomeness serves as a Protective Factor under step 2 (Family Support/Value).

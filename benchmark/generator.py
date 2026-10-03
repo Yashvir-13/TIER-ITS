@@ -1,109 +1,103 @@
 import json
-import uuid
-import random
-from typing import List, Dict, Any
+from typing import List, Dict
 from pathlib import Path
+from src.schemas import Conversation, ConversationTurn
 
-# Paths
-TEMPLATES_DIR = Path(__file__).parent / "templates"
-OUTPUT_DIR = Path(__file__).parent.parent / "data" / "benchmark"
-OUTPUT_FILE = OUTPUT_DIR / "benchmark_cases.jsonl"
-
-def load_jsonl(filepath: Path) -> List[Dict[str, Any]]:
-    if not filepath.exists():
-        return []
-    with open(filepath, 'r') as f:
-        return [json.loads(line) for line in f if line.strip()]
-
-def generate_conversation(
-    case_id: str,
-    target_turn: Dict[str, Any],
-    distractors: List[Dict[str, Any]],
-    depth: int
-) -> Dict[str, Any]:
+class BenchmarkGenerator:
     """
-    Generates a conversation of roughly 'depth' length, placing the target_turn
-    at the appropriate distance from the end.
+    Deep module to generate the synthetic controlled benchmark conversations.
+    It takes target statements (evidence) and distractors (noise) and places 
+    the target at precise depths (0, 20, 50, 100 turns from the end).
     """
-    # Simply generate dummy context using distractors
-    turns = []
     
-    # We need to place the target turn 'depth' turns before the end.
-    # Total length = depth + some random prefix.
-    total_length = depth + random.randint(5, 15)
-    target_idx = total_length - depth - 1
-    if target_idx < 0:
-        target_idx = 0
-        total_length = depth + 1
+    def __init__(self, templates_dir: str = "benchmark/templates/"):
+        self.templates_dir = Path(templates_dir)
         
-    speaker_cycle = ["Patient", "Therapist"]
-    
-    for i in range(total_length):
-        speaker = speaker_cycle[i % 2]
+    def load_jsonl(self, filename: str) -> List[Dict]:
+        file_path = self.templates_dir / filename
+        if not file_path.exists():
+            return []
+        with open(file_path, "r", encoding="utf-8") as f:
+            return [json.loads(line) for line in f]
+            
+    def generate_case(self, case_id: str, target_statement: Dict, distractors: List[Dict], depth: int) -> Conversation:
+        """
+        Generates a conversation where the target_statement is exactly `depth` turns from the end.
         
-        if i == target_idx:
-            # Insert target
-            turns.append({
-                "turn_index": i,
-                "speaker": speaker,
-                "text": target_turn["text"]
-            })
-        else:
-            # Pick a random distractor that matches the speaker if possible, else generic
-            dist = random.choice(distractors)
-            turns.append({
-                "turn_index": i,
-                "speaker": speaker,
-                "text": dist["text"]
-            })
+        Args:
+            case_id: Unique identifier for this case.
+            target_statement: The specific turn containing the ITS evidence.
+            distractors: A pool of unrelated turns to use as padding.
+            depth: How many turns *after* the target statement should exist.
             
-    return {
-        "id": case_id,
-        "turns": turns
-    }
-
-def main():
-    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-    
-    tb_cases = load_jsonl(TEMPLATES_DIR / "tb_evidence.jsonl")
-    pb_cases = load_jsonl(TEMPLATES_DIR / "pb_evidence.jsonl")
-    distractors = load_jsonl(TEMPLATES_DIR / "distractors.jsonl")
-    
-    if not tb_cases and not pb_cases:
-        print("No target cases found in templates. Please add some!")
-        return
-
-    if not distractors:
-        print("No distractors found. Using fallback distractor.")
-        distractors = [{"text": "Can you tell me more about that?"}, {"text": "I see. And how did that make you feel?"}, {"text": "Just been busy with work lately."}]
-
-    depths = [0, 20, 50, 100]
-    all_targets = tb_cases + pb_cases
-    generated_cases = []
-    
-    for target in all_targets:
-        for depth in depths:
-            case_id = f"case_{uuid.uuid4().hex[:8]}_d{depth}"
-            conv = generate_conversation(case_id, target, distractors, depth)
+        Returns:
+            A Conversation object.
+        """
+        turns = []
+        turn_index = 0
+        
+        # 1. Add some initial context (e.g. 5 turns of greeting/setup)
+        for i in range(5):
+            turns.append(ConversationTurn(
+                turn_index=turn_index,
+                speaker=distractors[i]["speaker"],
+                text=distractors[i]["text"]
+            ))
+            turn_index += 1
             
-            benchmark_case = {
-                "case_id": case_id,
-                "conversation": conv,
-                "target_statement": {
-                    "turn_index": len(conv["turns"]) - depth - 1,
-                    "speaker": conv["turns"][-depth-1]["speaker"] if depth < len(conv["turns"]) else "Unknown",
-                    "text": target["text"]
-                },
-                "target_depth": depth,
-                "expected_concept": target.get("concept", "unknown")
-            }
-            generated_cases.append(benchmark_case)
+        # 2. Add the target statement
+        turns.append(ConversationTurn(
+            turn_index=turn_index,
+            speaker=target_statement["speaker"],
+            text=target_statement["text"]
+        ))
+        target_turn_index = turn_index
+        turn_index += 1
+        
+        # 3. Add exactly `depth` number of distractor turns after the target
+        distractor_offset = 5 # we used 5 already
+        for i in range(depth):
+            # cycle through distractors if we run out
+            d_idx = (distractor_offset + i) % len(distractors)
+            turns.append(ConversationTurn(
+                turn_index=turn_index,
+                speaker=distractors[d_idx]["speaker"],
+                text=distractors[d_idx]["text"]
+            ))
+            turn_index += 1
             
-    with open(OUTPUT_FILE, 'w') as f:
-        for case in generated_cases:
-            f.write(json.dumps(case) + "\n")
+        return Conversation(case_id=f"{case_id}_depth_{depth}", turns=turns)
+        
+    def build_pilot_benchmark(self, output_dir: str = "benchmark/pilot/"):
+        """
+        Builds the entire pilot benchmark of ~160 cases.
+        """
+        out_path = Path(output_dir)
+        out_path.mkdir(parents=True, exist_ok=True)
+        
+        tb_targets = self.load_jsonl("tb_evidence.jsonl")
+        pb_targets = self.load_jsonl("pb_evidence.jsonl")
+        distractors = self.load_jsonl("distractors.jsonl")
+        
+        if not tb_targets or not distractors:
+            print("Templates missing. Please populate benchmark/templates/*.jsonl")
+            return
             
-    print(f"Generated {len(generated_cases)} benchmark cases at {OUTPUT_FILE}")
-
-if __name__ == "__main__":
-    main()
+        depths = [0, 20, 50, 100]
+        
+        # Simple loop for the pilot: place each target at each depth
+        for targets, prefix in [(tb_targets, "tb"), (pb_targets, "pb")]:
+            for i, target in enumerate(targets):
+                nuance = target.get("nuance_level", "unknown")
+                for depth in depths:
+                    case_id = f"{prefix}_{nuance}_{i}_depth_{depth}"
+                    case = self.generate_case(case_id, target, distractors, depth)
+                    
+                    # Save the generated case
+                    # The case object might have its id appended with _depth_X internally 
+                    # from generate_case, but let's just use what generate_case returned.
+                    case_file = out_path / f"{case.case_id}.json"
+                    with open(case_file, "w", encoding="utf-8") as f:
+                        f.write(case.model_dump_json(indent=2))
+                        
+        print(f"Pilot benchmark generated at {output_dir}")

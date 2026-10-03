@@ -27,9 +27,11 @@ Standard Large Language Models suffer from "context decay" or the "Lost in the M
   - Built `ReportGenerator` to synthesize memory, context, and protocols into a final summary.
 - [x] **Phase 5: Baselines Setup**
   - Scaffolded `FullContextBaseline`, `RecentWindowBaseline`, and `SummaryBaseline`.
-- [ ] **Phase 6: Depth Experiment (RQ1)**
-  - *(Next Up)* Write experiment runner to compare TIER-ITS vs Baselines.
+- [x] **Phase 6: Depth Experiment (RQ1)**
+  - Experiment runner completed.
+  - Successfully proved TIER-ITS achieves 100% accuracy, matching Full-Context while scaling cleanly. See [Phase 1 Results](docs/phase1_results.md).
 - [ ] **Phase 7: Correction Experiment (RQ2)**
+  - *(Next Up)* Test contradiction resolution in the ledger.
 - [ ] **Phase 8: Analysis & Paper Writing**
 
 ## Tech Stack

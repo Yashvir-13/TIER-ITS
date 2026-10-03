@@ -16,9 +16,9 @@ class GeminiExtractor:
         # We rely on the google-genai library to pick up GEMINI_API_KEY from env
         # if api_key is not explicitly provided.
         if api_key:
-            self.client = genai.Client(api_key=api_key)
+            self.client = genai.Client(api_key=api_key, http_options={'timeout': 120000})
         else:
-            self.client = genai.Client()
+            self.client = genai.Client(http_options={'timeout': 120000})
         self.model_name = model_name
 
     def extract(self, turn: ConversationTurn) -> Optional[EvidenceRecord]:
@@ -31,33 +31,91 @@ class GeminiExtractor:
         Returns:
             An EvidenceRecord if a concept is found, else None.
         """
+        import time
         prompt = self._build_prompt(turn)
         
-        response = self.client.models.generate_content(
-            model=self.model_name,
-            contents=prompt,
-            config=types.GenerateContentConfig(
-                response_mime_type="application/json",
-                response_schema=EvidenceRecord,
-                temperature=0.0,
-            ),
-        )
+        max_retries = 10
+        for attempt in range(max_retries):
+            try:
+                response = self.client.models.generate_content(
+                    model=self.model_name,
+                    contents=prompt,
+                    config=types.GenerateContentConfig(
+                        response_mime_type="application/json",
+                        response_schema=EvidenceRecord,
+                        temperature=0.0,
+                    ),
+                )
+                
+                try:
+                    record_data = json.loads(response.text)
+                    record = EvidenceRecord(**record_data)
+                    return record
+                except Exception:
+                    return None
+                    
+            except Exception as e:
+                if attempt == max_retries - 1:
+                    print(f"Extractor failed after {max_retries} attempts: {e}")
+                    return None
+                print(f"Network error (attempt {attempt+1}/{max_retries}): {e}. Waiting 10s...")
+                time.sleep(10)
+
+    def batch_extract(self, turns: list[ConversationTurn]) -> list[EvidenceRecord]:
+        """
+        Extracts ITS concepts from multiple conversation turns in a single batch API call.
+        This is an optimization for batch experiments to avoid hitting rate limits.
+        """
+        from src.schemas import Ledger # Import locally or at top
+        import time
         
-        try:
-            record_data = json.loads(response.text)
-            # If the model returns empty strings or nulls for the required fields, 
-            # it means no valid concept was found. The schema enforces required fields.
-            record = EvidenceRecord(**record_data)
+        patient_turns = [t for t in turns if t.speaker == "patient"]
+        if not patient_turns:
+            return []
             
-            # Since the prompt asks to return the concept if present, 
-            # we need a way for the model to indicate "no concept". 
-            # In a refined schema, we might add a "NONE" concept, but for now 
-            # we assume the model throws a validation error or returns a specific shape if empty.
-            return record
-        except Exception as e:
-            # If it fails to parse or validate, we assume no valid concept was extracted.
-            # In a production system, we would log this error.
-            return None
+        # Format all turns into a numbered list
+        turns_text = "\n".join([f"Turn {t.turn_index}: {t.text}" for t in patient_turns])
+        
+        prompt = f"""
+        You are an expert clinical psychologist analyzing a conversation for signs of the Interpersonal Theory of Suicide (ITS).
+        
+        Analyze the following conversational turns from the patient:
+        
+        {turns_text}
+        
+        Extract ANY prominent ITS concepts present in these texts (Thwarted Belongingness, Perceived Burdensomeness, Hopelessness, or Acquired Capability).
+        For each concept found, create a record. Ensure the 'turn_index' precisely matches the turn index provided in the text above.
+        Return a JSON object containing a list of 'records'.
+        """
+        
+        max_retries = 10
+        for attempt in range(max_retries):
+            try:
+                response = self.client.models.generate_content(
+                    model=self.model_name,
+                    contents=prompt,
+                    config=types.GenerateContentConfig(
+                        response_mime_type="application/json",
+                        response_schema=Ledger,
+                        temperature=0.0,
+                    ),
+                )
+                
+                try:
+                    ledger_data = json.loads(response.text)
+                    ledger = Ledger(**ledger_data)
+                    return ledger.records
+                except Exception as e:
+                    print(f"Batch parse error: {e}")
+                    return []
+                    
+            except Exception as e:
+                if attempt == max_retries - 1:
+                    print(f"Batch extractor failed after {max_retries} attempts: {e}")
+                    return []
+                print(f"Network error (attempt {attempt+1}/{max_retries}): {e}. Waiting 10s...")
+                time.sleep(10)
+        return []
 
     def _build_prompt(self, turn: ConversationTurn) -> str:
         return f"""

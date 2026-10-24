@@ -1,8 +1,13 @@
 import pytest
-import chromadb
+try:
+    import chromadb
+except ImportError:
+    chromadb = None
+
 from src.schemas import ConversationTurn
 from src.retrieval.conversation import ConversationRetriever
 
+@pytest.mark.skipif(chromadb is None, reason="chromadb is not installed")
 def test_conversation_retriever_adds_and_retrieves_turns(tmp_path):
     # Use a temporary directory for ChromaDB so tests don't pollute local state
     retriever = ConversationRetriever(persist_directory=str(tmp_path))
@@ -22,3 +27,14 @@ def test_conversation_retriever_adds_and_retrieves_turns(tmp_path):
     assert len(results) == 1
     assert results[0].turn_index == 2
     assert "burden" in results[0].text
+
+def test_conversation_retriever_fallback():
+    # Test that conversation retriever handles in-memory mode or fallback without crashing
+    retriever = ConversationRetriever(in_memory=True)
+    turns = [
+        ConversationTurn(turn_index=0, speaker="patient", text="Turn 0"),
+        ConversationTurn(turn_index=1, speaker="therapist", text="Turn 1"),
+    ]
+    retriever.add_turns(turns)
+    results = retriever.retrieve_relevant_turns("test query", top_k=2)
+    assert len(results) <= 2

@@ -51,5 +51,19 @@ data/processed/
 data/cache/
 results/
 chroma_db/
+chroma_db_temp/
 mlruns/
 *.log
+
+# Scratch & Local Archives
+tier-its.zip
+scratch_*.json
+.licenses/
+
+# Unpublished Manuscripts & Paper Drafts
+main.tex
+*.tex
+*.backup
+paper/
+
+

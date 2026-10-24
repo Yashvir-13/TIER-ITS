@@ -1,3 +1,4 @@
+# C-SSRS (Condensed Clinical Protocol Summary for Prompt Grounding)
 C-SSRS (Columbia-Suicide Severity Rating Scale) Core Questions:
 1. Wish to be Dead: Have you wished you were dead or wished you could go to sleep and not wake up?
 2. Suicidal Thoughts: Have you actually had any thoughts of killing yourself?

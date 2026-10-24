@@ -1,6 +1,10 @@
 {"id": "pb_exp_001", "speaker": "patient", "text": "I am just a massive burden to my family. They would be so much better off financially and emotionally if I wasn't around anymore.", "nuance_level": "explicit"}
-{"id": "pb_exp_002", "speaker": "patient", "text": "Everything I touch gets ruined. I just make life harder for the people who care about me.", "nuance_level": "explicit"}
+{"id": "pb_exp_002", "speaker": "patient", "text": "Everything I touch gets ruined. I just make life harder for the people who care about me. They deserve to be free of me.", "nuance_level": "explicit"}
+{"id": "pb_exp_003", "speaker": "patient", "text": "My family spends all their energy taking care of my problems. I am a complete liability and anchor dragging everyone down.", "nuance_level": "explicit"}
+{"id": "pb_exp_004", "speaker": "patient", "text": "If I ceased to exist, my partner's stress would drop immediately. My presence is an unbearable toll on the people I love.", "nuance_level": "explicit"}
 {"id": "pb_imp_001", "speaker": "patient", "text": "My wife looks so tired lately. I know it's because of me. She's working double shifts just to pay for my treatments.", "nuance_level": "implicit"}
 {"id": "pb_imp_002", "speaker": "patient", "text": "I saw my kids whispering earlier. They always stop when I walk in. I'm just dragging everyone down with this mood.", "nuance_level": "implicit"}
+{"id": "pb_imp_003", "speaker": "patient", "text": "Looking at our monthly bank balance after my medical expenses... everyone would have a secure future if they didn't have to support me.", "nuance_level": "implicit"}
 {"id": "pb_frag_001", "speaker": "patient", "text": "Sometimes I think... maybe it’s just easier if I just... disappear. Then they wouldn't have to worry all the time.", "nuance_level": "fragmented"}
 {"id": "pb_frag_002", "speaker": "patient", "text": "It’s too much for them. The hospital bills, the crying... I can't keep doing this to them.", "nuance_level": "fragmented"}
+{"id": "pb_frag_003", "speaker": "patient", "text": "They sigh every time they look at me... like having to carry me is just wearing them out.", "nuance_level": "fragmented"}

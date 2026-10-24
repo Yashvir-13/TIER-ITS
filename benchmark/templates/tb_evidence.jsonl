@@ -1,6 +1,10 @@
 {"id": "tb_exp_001", "speaker": "patient", "text": "Honestly, I just feel like I'm completely alone in this world. Nobody understands me, and I don't fit in anywhere.", "nuance_level": "explicit"}
 {"id": "tb_exp_002", "speaker": "patient", "text": "Even when I'm in a room full of people I know, I feel totally disconnected. Like there's a glass wall between me and everyone else.", "nuance_level": "explicit"}
+{"id": "tb_exp_003", "speaker": "patient", "text": "I could vanish off the face of the earth tomorrow and not a single person in my life would notice or care. I belong nowhere.", "nuance_level": "explicit"}
+{"id": "tb_exp_004", "speaker": "patient", "text": "There is no community, family, or friend group where I truly belong. I have never felt more isolated from human connection.", "nuance_level": "explicit"}
 {"id": "tb_imp_001", "speaker": "patient", "text": "I don't know why I bother showing up to Sunday dinner anymore. I just sit there and stare at my plate while they talk around me.", "nuance_level": "implicit"}
 {"id": "tb_imp_002", "speaker": "patient", "text": "My phone didn't ring once this entire weekend. Not that I expected it to. People have their own lives.", "nuance_level": "implicit"}
+{"id": "tb_imp_003", "speaker": "patient", "text": "Watching everyone laugh together in the breakroom while I eat lunch alone in my car... it's just a reminder of how separate I am.", "nuance_level": "implicit"}
 {"id": "tb_frag_001", "speaker": "patient", "text": "It’s just... whatever, you know? Like, if I wasn't there... they wouldn't even notice the empty chair.", "nuance_level": "fragmented"}
 {"id": "tb_frag_002", "speaker": "patient", "text": "I try to talk to them but... it's like speaking a different language. So I just stopped trying.", "nuance_level": "fragmented"}
+{"id": "tb_frag_003", "speaker": "patient", "text": "Nobody calls... and even if they did... what would I say? I'm just an alien in my own hometown.", "nuance_level": "fragmented"}

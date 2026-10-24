@@ -2,24 +2,25 @@ import os
 import json
 import pytest
 from pydantic import BaseModel
-from google import genai
-from google.genai import types
 from dotenv import load_dotenv
 
 load_dotenv()
 
-from src.schemas import EvidenceRecord, ITSConcept
+try:
+    from google import genai
+    from google.genai import types
+except ImportError:
+    genai = None
+    types = None
 
-# To run this test:
-# 1. Set GEMINI_API_KEY in your environment (.env)
-# 2. Run: pytest tests/test_gemini_structured.py -v
+from tests.conftest import HAS_INTERNET
 
-@pytest.mark.skipif(not os.getenv("GEMINI_API_KEY"), reason="GEMINI_API_KEY is not set")
+@pytest.mark.skipif(genai is None or not os.getenv("GEMINI_API_KEY") or not HAS_INTERNET, reason="google-genai not installed, GEMINI_API_KEY is not set, or internet is unreachable")
 def test_gemini_structured_extraction():
     """Test that Gemini can extract ITS concepts and return them strictly matching the Pydantic schema."""
     
     # Initialize the Gemini GenAI client
-    client = genai.Client()
+    client = genai.Client(http_options={'timeout': 120000})
     
     # Example patient turn exhibiting Thwarted Belongingness
     conversation_turn = "Honestly, I just feel like I'm completely alone in this world. Nobody understands me, and I don't fit in anywhere. It's like I'm invisible to my own family."

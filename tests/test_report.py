@@ -1,9 +1,15 @@
 import os
 import pytest
+try:
+    from google import genai
+except ImportError:
+    genai = None
+
 from src.schemas import EvidenceRecord, ITSConcept, ConversationTurn
 from src.report.generator import ReportGenerator
+from tests.conftest import HAS_INTERNET
 
-@pytest.mark.skipif(not os.getenv("GEMINI_API_KEY"), reason="GEMINI_API_KEY is not set")
+@pytest.mark.skipif(genai is None or not os.getenv("GEMINI_API_KEY") or not HAS_INTERNET, reason="google-genai not installed, GEMINI_API_KEY is not set, or internet unreachable")
 def test_report_generator_creates_clinical_summary():
     generator = ReportGenerator()
     

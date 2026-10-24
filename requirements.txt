@@ -10,6 +10,7 @@ sentence-transformers>=2.2.0  # Embedding models for RAG retrieval
 tokenizers>=0.15.0          # Fast tokenizer backend
 
 # --- LLM Inference ---
+google-genai>=0.1.0          # Google GenAI SDK (Gemini API)
 openai>=1.10.0              # OpenAI-compatible API client (for Ollama, remote LLMs)
 litellm>=1.30.0             # Unified LLM API (switch between providers easily)
 ollama>=0.3.0               # Ollama Python client (local inference)

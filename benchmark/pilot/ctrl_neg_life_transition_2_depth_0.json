@@ -1,0 +1,44 @@
+{
+  "case_id": "ctrl_neg_life_transition_2_depth_0",
+  "turns": [
+    {
+      "turn_index": 0,
+      "speaker": "therapist",
+      "text": "How have your energy levels been throughout the mornings this week?"
+    },
+    {
+      "turn_index": 1,
+      "speaker": "patient",
+      "text": "A bit groggy at first, but once I get that first cup of black coffee down, I start easing into the routine."
+    },
+    {
+      "turn_index": 2,
+      "speaker": "therapist",
+      "text": "That makes sense. Have you been able to maintain a regular bedtime schedule?"
+    },
+    {
+      "turn_index": 3,
+      "speaker": "patient",
+      "text": "Mostly around eleven. Some nights I read a chapter of my book, other nights I just turn the lights out right away."
+    },
+    {
+      "turn_index": 4,
+      "speaker": "therapist",
+      "text": "What kind of book are you reading currently?"
+    },
+    {
+      "turn_index": 5,
+      "speaker": "patient",
+      "text": "We're packing up the apartment to move next weekend and there are boxes everywhere. It's overwhelming, but my brother is coming over to help."
+    }
+  ],
+  "concept": null,
+  "nuance_level": "control",
+  "initial_turn_index": 5,
+  "correction_turn_index": null,
+  "gap": null,
+  "expected_final_risk": false,
+  "is_negative_control": true,
+  "is_non_correction_control": false,
+  "target_evidence_turns": []
+}

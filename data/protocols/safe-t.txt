@@ -1,3 +1,4 @@
+# SAFE-T (Condensed Clinical Protocol Summary for Prompt Grounding)
 SAFE-T (Suicide Assessment Five-step Evaluation and Triage):
 1. Identify Risk Factors: Note those that can be modified to reduce risk (e.g., severe panic, intoxication, isolation).
 2. Identify Protective Factors: Note those that can be enhanced (e.g., family support, religious beliefs, pregnancy).

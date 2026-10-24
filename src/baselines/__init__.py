@@ -1,15 +1,5 @@
 from .methods import (
-    BaselineMethod, 
-    FullContextBaseline, 
-    RecentWindowBaseline, 
-    SummaryBaseline, 
-    TargetOnlyBaseline
+    FullContextBaseline,
+    RecentWindowBaseline,
+    SummaryBaseline
 )
-
-__all__ = [
-    "BaselineMethod",
-    "FullContextBaseline",
-    "RecentWindowBaseline",
-    "SummaryBaseline",
-    "TargetOnlyBaseline"
-]

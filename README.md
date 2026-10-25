@@ -35,7 +35,6 @@
   - [Replicating Bootstrap Statistics](#4-replicating-statistical-analysis)
   - [Regenerating Publication Figures](#5-generating-publication-figures)
 - [Ethics & Responsible AI Statement](#ethics--responsible-ai-statement)
-- [Citation](#citation)
 
 ---
 
@@ -258,19 +257,3 @@ Regenerate all vector PDF and 300-DPI PNG figures into the `figures/` directory:
 - **Harm Prevention & Safety:** In accordance with responsible clinical NLP standards, no lethal means, methods, or graphic self-harm descriptions were generated, evaluated, or stored in this repository.
 - **Not a Clinical Device:** TIER-ITS is an academic research prototype designed to evaluate computational memory scaling and auditable evidence provenance; it does not provide clinical diagnostic assessments, medical advice, or crisis intervention.
 - **"Insufficient Evidence" is a Valid State:** The system is explicitly configured to return "Insufficient Evidence" on control cases without forcing artificial risk classifications.
-
----
-
-## Citation
-
-If you use or build upon TIER-ITS in your research, please cite:
-
-```bibtex
-@article{yashvir2026tierits,
-  title={{TIER-ITS}: Theory-Indexed Evidence Retrieval for Long Mental-Health Conversations -- A Controlled Feasibility and Systems Study},
-  author={Yashvir},
-  journal={arXiv preprint},
-  year={2026},
-  note={Research Prototype and Benchmark Evaluation}
-}
-```
